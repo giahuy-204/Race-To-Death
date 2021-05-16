@@ -12,7 +12,7 @@ public class RaceToDeath extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("start1.png");
 	}
 
 	@Override
