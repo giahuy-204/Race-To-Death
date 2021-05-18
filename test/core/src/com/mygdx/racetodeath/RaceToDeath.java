@@ -1,6 +1,5 @@
 package com.mygdx.racetodeath;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Game;
 
 public class RaceToDeath extends Game {

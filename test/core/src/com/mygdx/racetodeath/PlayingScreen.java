@@ -27,7 +27,7 @@ public class PlayingScreen implements Screen {
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
-        background = new Texture("start1.png");
+        background = new Texture("playingscreen.png");
         backgroundOffset = 0;
 
         batch = new SpriteBatch();
