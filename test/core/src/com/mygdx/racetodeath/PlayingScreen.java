@@ -3,54 +3,97 @@ package com.mygdx.racetodeath;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import javax.xml.soap.Text;
+class PlayingScreen implements Screen {
 
-public class PlayingScreen implements Screen {
-
+    //screen
     private Camera camera;
     private Viewport viewport;
 
+    //graphics
     private SpriteBatch batch;
-    private Texture background;
+    private TextureAtlas textureAtlas;
 
-    private int backgroundOffset;
+    private TextureRegion[] backgrounds;
+    private float backgroundHeight; //height of background in World units
+
+    private TextureRegion playerCarTextureRegion, enemyCarTextureRegion, bulletTextureRegion;
+
+    private float[] backgroundOffsets = {0, 0, 0, 0};
+    private float backgroundMaxScrollingSpeed;
 
     private final int WORLD_WIDTH = 72;
     private final int WORLD_HEIGHT = 128;
 
+    private Cars playerCar;
+    private Cars enemyCar;
+
     PlayingScreen() {
+
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
-        background = new Texture("playingscreen.png");
-        backgroundOffset = 0;
+        textureAtlas = new TextureAtlas("images.atlas");
+
+        backgrounds = new TextureRegion[4];
+        backgrounds[0] = textureAtlas.findRegion("screen00");
+        backgrounds[1] = textureAtlas.findRegion("screen01");
+        backgrounds[2] = textureAtlas.findRegion("screen02");
+        backgrounds[3] = textureAtlas.findRegion("screen03");
+
+        backgroundHeight = WORLD_HEIGHT * 2;
+        backgroundMaxScrollingSpeed = (float) (WORLD_HEIGHT) / 4;
+
+        playerCarTextureRegion = textureAtlas.findRegion("maincar");
+        enemyCarTextureRegion = textureAtlas.findRegion("policecar");
+
+        bulletTextureRegion = textureAtlas.findRegion("bullet");
+
+        playerCar = new Cars(2, 10, 20,
+                WORLD_WIDTH/2, WORLD_HEIGHT/4,
+                playerCarTextureRegion);
+        enemyCar = new Cars(4, 10, 20,
+                WORLD_WIDTH/2, WORLD_HEIGHT*3/4,
+                enemyCarTextureRegion);
+
 
         batch = new SpriteBatch();
     }
 
     @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void render(float delta) {
+    public void render(float deltaTime) {
         batch.begin();
 
-        backgroundOffset++;
-        if (backgroundOffset % WORLD_HEIGHT == 0) {
-            backgroundOffset = 0;
-        }
+        renderBackground(deltaTime);
 
-        batch.draw(background, 0, -backgroundOffset, WORLD_WIDTH, WORLD_HEIGHT);
-        batch.draw(background, 0, -backgroundOffset + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
+        enemyCar.draw(batch);
+
+        playerCar.draw(batch);
+
+        //lasers
 
         batch.end();
+    }
+
+    private void renderBackground(float deltaTime) {
+
+        backgroundOffsets[0] += deltaTime * backgroundMaxScrollingSpeed / 8;
+        backgroundOffsets[1] += deltaTime * backgroundMaxScrollingSpeed / 4;
+        backgroundOffsets[2] += deltaTime * backgroundMaxScrollingSpeed / 2;
+        backgroundOffsets[3] += deltaTime * backgroundMaxScrollingSpeed;
+
+        for (int layer = 0; layer < backgroundOffsets.length; layer++) {
+            if (backgroundOffsets[layer] > WORLD_HEIGHT) {
+                backgroundOffsets[layer] = 0;
+            }
+            batch.draw(backgrounds[layer], 0, -backgroundOffsets[layer],
+                    WORLD_WIDTH, backgroundHeight);
+        }
     }
 
     @Override
@@ -75,7 +118,12 @@ public class PlayingScreen implements Screen {
     }
 
     @Override
-    public void dispose() {
+    public void show() {
 
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
     }
 }

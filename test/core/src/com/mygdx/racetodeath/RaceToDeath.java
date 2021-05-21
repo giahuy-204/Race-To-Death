@@ -7,15 +7,11 @@ public class RaceToDeath extends Game {
 	PlayingScreen playingScreen;
 
 	@Override
-	public void create () {
+	public void create() {
 		playingScreen = new PlayingScreen();
 		setScreen(playingScreen);
 	}
 
-	@Override
-	public void render () {
-		super.render();
-	}
 
 	@Override
 	public void dispose() {
@@ -24,9 +20,13 @@ public class RaceToDeath extends Game {
 
 
 	@Override
-	public void resize(int width, int height) {
-		playingScreen.resize(width, height);
+	public void render() {
+		super.render();
 	}
 
 
+	@Override
+	public void resize(int width, int height) {
+		playingScreen.resize(width, height);
+	}
 }
