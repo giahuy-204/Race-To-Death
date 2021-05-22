@@ -2,9 +2,13 @@ package com.mygdx.racetodeath;
 
 import com.badlogic.gdx.Game;
 
+import java.util.Random;
+
 public class RaceToDeath extends Game {
 
 	PlayingScreen playingScreen;
+
+	public static Random random = new Random();
 
 	@Override
 	public void create() {

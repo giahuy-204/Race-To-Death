@@ -2,13 +2,14 @@ package com.mygdx.racetodeath;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 
 abstract class Cars {
 
     float movementSpeed;
 
-    float xPosition, yPosition;
-    float width, height;
+
+    Rectangle boundingBox;
 
     float bulletWidth, bulletHeight;
     float bulletMovementSpeed;
@@ -25,10 +26,7 @@ abstract class Cars {
                 TextureRegion shipTextureRegion,
                 TextureRegion bulletTextureRegion) {
         this.movementSpeed = movementSpeed;
-        this.xPosition = xCentre - width / 2;
-        this.yPosition = yCentre - height / 2;
-        this.width = width;
-        this.height = height;
+        this.boundingBox = new Rectangle(xCentre - width / 2,yCentre - height / 2, width, height);
         this.bulletWidth = bulletWidth;
         this.bulletHeight = bulletHeight;
         this.bulletMovementSpeed = bulletMovementSpeed;
@@ -48,7 +46,20 @@ abstract class Cars {
 
     public abstract Bullet[] fireBullet();
 
+    public boolean intersects(Rectangle otherRectangle) {
+
+        return boundingBox.overlaps(otherRectangle);
+    }
+
+    public void hit(Bullet bullet) {
+
+    }
+
+    public void translate(float xChange, float yChange) {
+        boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y + yChange);
+    }
+
     public void draw(Batch batch) {
-        batch.draw(shipTextureRegion, xPosition, yPosition, width, height);
+        batch.draw(shipTextureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
     }
 }

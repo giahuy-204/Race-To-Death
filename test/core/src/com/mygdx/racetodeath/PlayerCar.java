@@ -15,7 +15,7 @@ class PlayerCar extends Cars {
     @Override
     public Bullet[] fireBullet() {
         Bullet[] bullets = new Bullet[1];
-        bullets[0] = new Bullet(xPosition + width*0.5f,yPosition + height*0.85f,
+        bullets[0] = new Bullet(boundingBox.x + boundingBox.width*0.5f,boundingBox.y + boundingBox.height*0.85f,
                 bulletWidth, bulletHeight, bulletMovementSpeed, bulletTextureRegion);
 
         timeSinceLastShot = 0;

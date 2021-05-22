@@ -1,13 +1,17 @@
 package com.mygdx.racetodeath;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -32,9 +36,10 @@ class PlayingScreen implements Screen {
 
     private final int WORLD_WIDTH = 72;
     private final int WORLD_HEIGHT = 128;
+    private final float TOUCH_MOVEMENT_THRESHOLD = 0.1f;
 
-    private Cars playerCar;
-    private Cars enemyCar;
+    private PlayerCar playerCar;
+    private EnemyCar enemyCar;
     private LinkedList<Bullet> playerBulletList;
     private LinkedList<Bullet> enemyBulletList;
 
@@ -60,12 +65,12 @@ class PlayingScreen implements Screen {
         playerbulletTextureRegion = textureAtlas.findRegion("playerbullet");
         enemybulletTextureRegion = textureAtlas.findRegion("enemybullet");
 
-        playerCar = new PlayerCar(2, 10, 20,
+        playerCar = new PlayerCar(45, 10, 20,
                 WORLD_WIDTH/2, WORLD_HEIGHT/4,
                 1, 4, 55, 0.5f,
                 playerCarTextureRegion, playerbulletTextureRegion);
-        enemyCar = new EnemyCar(4, 10, 20,
-                WORLD_WIDTH/2, WORLD_HEIGHT*3/4,
+        enemyCar = new EnemyCar(35, 10, 20,
+                RaceToDeath.random.nextFloat()*(WORLD_WIDTH-10)+5, WORLD_HEIGHT - 5,
                 1, 4, 50, 0.8f,
                 enemyCarTextureRegion, enemybulletTextureRegion);
 
@@ -81,6 +86,9 @@ class PlayingScreen implements Screen {
     public void render(float deltaTime) {
         batch.begin();
 
+        detectInput(deltaTime);
+        moveEnemies(deltaTime);
+
         playerCar.update(deltaTime);
         enemyCar.update(deltaTime);
 
@@ -90,6 +98,123 @@ class PlayingScreen implements Screen {
 
         playerCar.draw(batch);
 
+        renderBullets(deltaTime);
+
+        renderExplosions(deltaTime);
+
+        detectCollisions();
+
+        batch.end();
+    }
+
+    private void detectInput(float deltaTime) {
+        float leftLimit, rightLimit, upLimit, downLimit;
+
+        leftLimit = -playerCar.boundingBox.x ;
+        downLimit = -playerCar.boundingBox.y;
+        rightLimit = WORLD_WIDTH - playerCar.boundingBox.x - playerCar.boundingBox.width;
+        upLimit = (float) WORLD_HEIGHT/2 - playerCar.boundingBox.y - playerCar.boundingBox.height;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && rightLimit > 0) {
+            playerCar.translate( Math.min(playerCar.movementSpeed*deltaTime, rightLimit), 0f);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && upLimit > 0) {
+            playerCar.translate(  0f, Math.min(playerCar.movementSpeed*deltaTime, upLimit));
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && leftLimit < 0) {
+            playerCar.translate( Math.max(-playerCar.movementSpeed*deltaTime, leftLimit), 0f);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && downLimit < 0) {
+            playerCar.translate( 0f, Math.max(-playerCar.movementSpeed*deltaTime, downLimit));
+        }
+
+        if (Gdx.input.isTouched()) {
+
+            float xTouchPixels = Gdx.input.getX();
+            float yTouchPixels = Gdx.input.getY();
+
+            Vector2 touchPoint = new Vector2(xTouchPixels, yTouchPixels);
+            touchPoint = viewport.unproject(touchPoint);
+
+            Vector2 playerCarCentre = new Vector2(
+                    playerCar.boundingBox.x/2 + playerCar.boundingBox.width/2,
+                    playerCar.boundingBox.y/2 + playerCar.boundingBox.height/2);
+
+            float touchDistance = touchPoint.dst(playerCarCentre);
+
+            if (touchDistance > TOUCH_MOVEMENT_THRESHOLD) {
+                float xTouchDifference = touchPoint.x - playerCarCentre.x;
+                float yTouchDifference = touchPoint.y - playerCarCentre.y;
+
+                float xMove = xTouchDifference / touchDistance * playerCar.movementSpeed * deltaTime;
+                float yMove = yTouchDifference / touchDistance * playerCar.movementSpeed * deltaTime;
+
+                if (xMove > 0) xMove = Math.min(xMove, rightLimit);
+                else xMove = Math.max(xMove, leftLimit);
+
+                if (yMove > 0) yMove = Math.min(yMove, upLimit);
+                else yMove = Math.max(yMove, downLimit);
+
+                playerCar.translate(xMove, yMove);
+
+            }
+
+        }
+
+    }
+
+    private void moveEnemies(float deltaTime) {
+
+        float leftLimit, rightLimit, upLimit, downLimit;
+
+        leftLimit = -enemyCar.boundingBox.x ;
+        downLimit = (float) WORLD_HEIGHT/2-enemyCar.boundingBox.y;
+        rightLimit = WORLD_WIDTH - enemyCar.boundingBox.x - enemyCar.boundingBox.width;
+        upLimit = WORLD_HEIGHT - enemyCar.boundingBox.y - enemyCar.boundingBox.height;
+
+        float xMove = enemyCar.getDirectionVector().x * enemyCar.movementSpeed * deltaTime;
+        float yMove = enemyCar.getDirectionVector().y * enemyCar.movementSpeed * deltaTime;
+
+        if (xMove > 0) xMove = Math.min(xMove, rightLimit);
+        else xMove = Math.max(xMove, leftLimit);
+
+        if (yMove > 0) yMove = Math.min(yMove, upLimit);
+        else yMove = Math.max(yMove, downLimit);
+
+        enemyCar.translate(xMove, yMove);
+
+    }
+
+    private void detectCollisions() {
+
+        ListIterator<Bullet> iterator = playerBulletList.listIterator();
+        while (iterator.hasNext()) {
+            Bullet bullet = iterator.next();
+            if (enemyCar.intersects(bullet.boundingBox)) {
+                enemyCar.hit(bullet);
+                iterator.remove();
+            }
+        }
+
+        iterator = enemyBulletList.listIterator();
+        while (iterator.hasNext()) {
+            Bullet bullet = iterator.next();
+            if (playerCar.intersects(bullet.boundingBox)) {
+                playerCar.hit(bullet);
+                iterator.remove();
+            }
+        }
+
+    }
+
+    private void renderExplosions(float deltaTime) {
+
+    }
+
+    private void renderBullets(float deltaTime) {
         //lasers
         if (playerCar.canFireBullet()) {
             Bullet[] bullets = playerCar.fireBullet();
@@ -109,8 +234,8 @@ class PlayingScreen implements Screen {
         while (iterator.hasNext()) {
             Bullet bullet = iterator.next();
             bullet.draw(batch);
-            bullet.yPosition += bullet.movementSpeed*deltaTime;
-            if (bullet.yPosition > WORLD_HEIGHT) {
+            bullet.boundingBox.y += bullet.movementSpeed*deltaTime;
+            if (bullet.boundingBox.y > WORLD_HEIGHT) {
                 iterator.remove();
             }
         }
@@ -119,13 +244,11 @@ class PlayingScreen implements Screen {
         while (iterator.hasNext()) {
             Bullet bullet = iterator.next();
             bullet.draw(batch);
-            bullet.yPosition -= bullet.movementSpeed*deltaTime;
-            if (bullet.yPosition + bullet.height < 0) {
+            bullet.boundingBox.y -= bullet.movementSpeed*deltaTime;
+            if (bullet.boundingBox.y + bullet.boundingBox.height < 0) {
                 iterator.remove();
             }
         }
-
-        batch.end();
     }
 
     private void renderBackground(float deltaTime) {

@@ -3,27 +3,31 @@ package com.mygdx.racetodeath;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 
 class Bullet {
 
-    float xPosition, yPosition;
-    float width, height;
 
+
+    Rectangle boundingBox;
     float movementSpeed;
 
     TextureRegion textureRegion;
 
 
-    public Bullet(float xPosition, float yPosition, float width, float height, float movementSpeed, TextureRegion textureRegion) {
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
-        this.width = width;
-        this.height = height;
+    public Bullet(float xCentre, float yBottom, float width, float height, float movementSpeed, TextureRegion textureRegion) {
+
+
+        this.boundingBox = new Rectangle(xCentre - width / 2,yBottom, width, height);
         this.movementSpeed = movementSpeed;
         this.textureRegion = textureRegion;
     }
 
     public void draw(Batch batch) {
-        batch.draw(textureRegion, xPosition - width/2 , yPosition, width, height);
+        batch.draw(textureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
     }
+
+//    public Rectangle getBoundingBox() {
+//        return boundingBox;
+//    }
 }
