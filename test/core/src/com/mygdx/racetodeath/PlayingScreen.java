@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.LinkedList;
+import java.util.ListIterator;
+
 class PlayingScreen implements Screen {
 
     //screen
@@ -32,6 +35,8 @@ class PlayingScreen implements Screen {
 
     private Cars playerCar;
     private Cars enemyCar;
+    private LinkedList<Bullet> playerBulletList;
+    private LinkedList<Bullet> enemyBulletList;
 
     PlayingScreen() {
 
@@ -54,12 +59,18 @@ class PlayingScreen implements Screen {
 
         bulletTextureRegion = textureAtlas.findRegion("bullet");
 
-        playerCar = new Cars(2, 10, 20,
+        playerCar = new PlayerCar(2, 10, 20,
                 WORLD_WIDTH/2, WORLD_HEIGHT/4,
-                playerCarTextureRegion);
-        enemyCar = new Cars(4, 10, 20,
+                1, 4, 55, 0.5f,
+                playerCarTextureRegion, bulletTextureRegion);
+        enemyCar = new EnemyCar(4, 10, 20,
                 WORLD_WIDTH/2, WORLD_HEIGHT*3/4,
-                enemyCarTextureRegion);
+                1, 4, 50, 0.8f,
+                enemyCarTextureRegion, bulletTextureRegion);
+
+
+        playerBulletList = new LinkedList<>();
+        enemyBulletList = new LinkedList<>();
 
 
         batch = new SpriteBatch();
@@ -69,6 +80,9 @@ class PlayingScreen implements Screen {
     public void render(float deltaTime) {
         batch.begin();
 
+        playerCar.update(deltaTime);
+        enemyCar.update(deltaTime);
+
         renderBackground(deltaTime);
 
         enemyCar.draw(batch);
@@ -76,6 +90,39 @@ class PlayingScreen implements Screen {
         playerCar.draw(batch);
 
         //lasers
+        if (playerCar.canFireBullet()) {
+            Bullet[] bullets = playerCar.fireBullet();
+            for (Bullet bullet: bullets) {
+                playerBulletList.add(bullet);
+            }
+        }
+
+        if (enemyCar.canFireBullet()) {
+            Bullet[] bullets = enemyCar.fireBullet();
+            for (Bullet bullet: bullets) {
+                playerBulletList.add(bullet);
+            }
+        }
+
+        ListIterator<Bullet> iterator = playerBulletList.listIterator();
+        while (iterator.hasNext()) {
+            Bullet bullet = iterator.next();
+            bullet.draw(batch);
+            bullet.yPosition += bullet.movementSpeed*deltaTime;
+            if (bullet.yPosition > WORLD_HEIGHT) {
+                iterator.remove();
+            }
+        }
+
+        iterator = enemyBulletList.listIterator();
+        while (iterator.hasNext()) {
+            Bullet bullet = iterator.next();
+            bullet.draw(batch);
+            bullet.yPosition -= bullet.movementSpeed*deltaTime;
+            if (bullet.yPosition + bullet.height < 0) {
+                iterator.remove();
+            }
+        }
 
         batch.end();
     }
