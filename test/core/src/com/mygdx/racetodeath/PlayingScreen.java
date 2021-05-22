@@ -25,7 +25,7 @@ class PlayingScreen implements Screen {
     private TextureRegion[] backgrounds;
     private float backgroundHeight; //height of background in World units
 
-    private TextureRegion playerCarTextureRegion, enemyCarTextureRegion, bulletTextureRegion;
+    private TextureRegion playerCarTextureRegion, enemyCarTextureRegion, playerbulletTextureRegion, enemybulletTextureRegion;
 
     private float[] backgroundOffsets = {0, 0, 0, 0};
     private float backgroundMaxScrollingSpeed;
@@ -57,16 +57,17 @@ class PlayingScreen implements Screen {
         playerCarTextureRegion = textureAtlas.findRegion("maincar");
         enemyCarTextureRegion = textureAtlas.findRegion("policecar");
 
-        bulletTextureRegion = textureAtlas.findRegion("bullet");
+        playerbulletTextureRegion = textureAtlas.findRegion("playerbullet");
+        enemybulletTextureRegion = textureAtlas.findRegion("enemybullet");
 
         playerCar = new PlayerCar(2, 10, 20,
                 WORLD_WIDTH/2, WORLD_HEIGHT/4,
                 1, 4, 55, 0.5f,
-                playerCarTextureRegion, bulletTextureRegion);
+                playerCarTextureRegion, playerbulletTextureRegion);
         enemyCar = new EnemyCar(4, 10, 20,
                 WORLD_WIDTH/2, WORLD_HEIGHT*3/4,
                 1, 4, 50, 0.8f,
-                enemyCarTextureRegion, bulletTextureRegion);
+                enemyCarTextureRegion, enemybulletTextureRegion);
 
 
         playerBulletList = new LinkedList<>();
@@ -100,7 +101,7 @@ class PlayingScreen implements Screen {
         if (enemyCar.canFireBullet()) {
             Bullet[] bullets = enemyCar.fireBullet();
             for (Bullet bullet: bullets) {
-                playerBulletList.add(bullet);
+                enemyBulletList.add(bullet);
             }
         }
 
