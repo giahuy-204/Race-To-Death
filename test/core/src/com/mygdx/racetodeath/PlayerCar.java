@@ -6,10 +6,10 @@ class PlayerCar extends Cars {
     public PlayerCar(float movementSpeed, float width, float height,
                      float xCentre, float yCentre, float bulletWidth,
                      float bulletHeight, float bulletMovementSpeed,
-                     float timeBetweenShots, TextureRegion shipTextureRegion, TextureRegion bulletTextureRegion) {
+                     float timeBetweenShots, TextureRegion carTextureRegion, TextureRegion bulletTextureRegion) {
         super(movementSpeed, width, height, xCentre, yCentre,
                 bulletWidth, bulletHeight, bulletMovementSpeed, timeBetweenShots,
-                shipTextureRegion, bulletTextureRegion);
+                carTextureRegion, bulletTextureRegion);
     }
 
     @Override
