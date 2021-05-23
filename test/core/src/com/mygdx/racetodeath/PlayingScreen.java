@@ -67,11 +67,11 @@ class PlayingScreen implements Screen {
 
         playerCar = new PlayerCar(45, 10, 20,
                 WORLD_WIDTH/2, WORLD_HEIGHT/4,
-                1, 4, 55, 0.5f,
+                1, 4, 75, 0.5f,
                 playerCarTextureRegion, playerbulletTextureRegion);
         enemyCar = new EnemyCar(35, 10, 20,
                 RaceToDeath.random.nextFloat()*(WORLD_WIDTH-10)+5, WORLD_HEIGHT - 5,
-                1, 4, 50, 0.8f,
+                1, 4, 70, 0.8f,
                 enemyCarTextureRegion, enemybulletTextureRegion);
 
 

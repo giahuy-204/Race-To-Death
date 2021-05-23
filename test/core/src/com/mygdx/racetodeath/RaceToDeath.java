@@ -31,6 +31,7 @@ public class RaceToDeath extends Game {
 
 	@Override
 	public void resize(int width, int height) {
+		super.resize(width, height);
 		playingScreen.resize(width, height);
 	}
 }

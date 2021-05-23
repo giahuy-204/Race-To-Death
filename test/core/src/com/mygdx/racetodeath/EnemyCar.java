@@ -54,6 +54,6 @@ class EnemyCar extends Cars {
     }
 
     public void draw(Batch batch) {
-        batch.draw(shipTextureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
+        batch.draw(carTextureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
     }
 }

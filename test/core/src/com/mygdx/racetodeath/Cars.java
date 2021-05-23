@@ -16,14 +16,14 @@ abstract class Cars {
     float timeBetweenShots;
     float timeSinceLastShot = 0;
 
-    TextureRegion shipTextureRegion, bulletTextureRegion;
+    TextureRegion carTextureRegion, bulletTextureRegion;
 
     public Cars(float movementSpeed,
                 float width, float height,
                 float xCentre, float yCentre,
                 float bulletWidth, float bulletHeight, float bulletMovementSpeed,
                 float timeBetweenShots,
-                TextureRegion shipTextureRegion,
+                TextureRegion carTextureRegion,
                 TextureRegion bulletTextureRegion) {
         this.movementSpeed = movementSpeed;
         this.boundingBox = new Rectangle(xCentre - width / 2,yCentre - height / 2, width, height);
@@ -31,7 +31,7 @@ abstract class Cars {
         this.bulletHeight = bulletHeight;
         this.bulletMovementSpeed = bulletMovementSpeed;
         this.timeBetweenShots = timeBetweenShots;
-        this.shipTextureRegion = shipTextureRegion;
+        this.carTextureRegion = carTextureRegion;
         this.bulletTextureRegion = bulletTextureRegion;
     }
 
@@ -60,6 +60,6 @@ abstract class Cars {
     }
 
     public void draw(Batch batch) {
-        batch.draw(shipTextureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
+        batch.draw(carTextureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
     }
 }
