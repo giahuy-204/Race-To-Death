@@ -1,16 +1,13 @@
-package com.mygdx.racetodeath;
+package com.mygdx.racetodeath.object;
 
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-class Bullet {
-
-
-
-    Rectangle boundingBox;
-    float movementSpeed;
+public class Bullet {
+    public Rectangle boundingBox;
+    public float movementSpeed;
 
     TextureRegion textureRegion;
 

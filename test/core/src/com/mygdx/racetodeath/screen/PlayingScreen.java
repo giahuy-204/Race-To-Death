@@ -1,4 +1,4 @@
-package com.mygdx.racetodeath;
+package com.mygdx.racetodeath.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,12 +11,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.racetodeath.object.Bullet;
+import com.mygdx.racetodeath.object.EnemyCar;
+import com.mygdx.racetodeath.object.PlayerCar;
+import com.mygdx.racetodeath.RaceToDeath;
 
 
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-class PlayingScreen implements Screen {
+public class PlayingScreen implements Screen {
 
     //screen
     private Camera camera;
@@ -43,7 +47,7 @@ class PlayingScreen implements Screen {
     private LinkedList<Bullet> playerBulletList;
     private LinkedList<Bullet> enemyBulletList;
 
-    PlayingScreen() {
+    public PlayingScreen() {
 
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);

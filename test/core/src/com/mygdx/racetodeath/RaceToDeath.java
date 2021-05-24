@@ -1,6 +1,7 @@
 package com.mygdx.racetodeath;
 
 import com.badlogic.gdx.Game;
+import com.mygdx.racetodeath.screen.PlayingScreen;
 
 import java.util.Random;
 

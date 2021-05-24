@@ -1,14 +1,15 @@
-package com.mygdx.racetodeath;
+package com.mygdx.racetodeath.object;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.racetodeath.RaceToDeath;
 
-class EnemyCar extends Cars {
+public class EnemyCar extends Cars {
 
     Vector2 directionVector;
-    float timeSinceLastDirectionChange = 0;
-    float directionChangeFrequency = 0.75f;
+    public float timeSinceLastDirectionChange = 0;
+    public float directionChangeFrequency = 0.75f;
 
     public EnemyCar(float movementSpeed, float width, float height,
                      float xCentre, float yCentre, float bulletWidth,
@@ -25,7 +26,7 @@ class EnemyCar extends Cars {
         return directionVector;
     }
 
-    private void randomizeDirectionVector() {
+    public void randomizeDirectionVector() {
         double bearing = RaceToDeath.random.nextDouble()*6.283185;
         directionVector.x = (float) Math.sin(bearing);
         directionVector.y = (float) Math.cos(bearing);

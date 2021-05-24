@@ -1,20 +1,20 @@
-package com.mygdx.racetodeath;
+package com.mygdx.racetodeath.object;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-abstract class Cars {
+public abstract class Cars {
 
-    float movementSpeed;
+    public float movementSpeed;
 
 
-    Rectangle boundingBox;
+    public Rectangle boundingBox;
 
-    float bulletWidth, bulletHeight;
-    float bulletMovementSpeed;
-    float timeBetweenShots;
-    float timeSinceLastShot = 0;
+    public float bulletWidth, bulletHeight;
+    public float bulletMovementSpeed;
+    public float timeBetweenShots;
+    public float timeSinceLastShot = 0;
 
     TextureRegion carTextureRegion, bulletTextureRegion;
 

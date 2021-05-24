@@ -1,8 +1,8 @@
-package com.mygdx.racetodeath;
+package com.mygdx.racetodeath.object;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-class PlayerCar extends Cars {
+public class PlayerCar extends Cars {
     public PlayerCar(float movementSpeed, float width, float height,
                      float xCentre, float yCentre, float bulletWidth,
                      float bulletHeight, float bulletMovementSpeed,
