@@ -37,13 +37,15 @@ public class PlayingScreen implements Screen {
 
     private float[] backgroundOffsets = {0, 0, 0, 0};
     private float backgroundMaxScrollingSpeed;
+    private float timeBetweenEnemySpawns = 3f; //3s
+    private float enemySpawnTimer = 0; //time start spawn
 
     private final int WORLD_WIDTH = 72;
     private final int WORLD_HEIGHT = 128;
     private final float TOUCH_MOVEMENT_THRESHOLD = 0.1f;
 
     private PlayerCar playerCar;
-    private EnemyCar enemyCar;
+    private LinkedList<EnemyCar> enemyCarList;
     private LinkedList<Bullet> playerBulletList;
     private LinkedList<Bullet> enemyBulletList;
 
@@ -73,11 +75,8 @@ public class PlayingScreen implements Screen {
                 WORLD_WIDTH/2, WORLD_HEIGHT/4,
                 1, 4, 75, 0.5f,
                 playerCarTextureRegion, playerbulletTextureRegion);
-        enemyCar = new EnemyCar(35, 10, 20,
-                RaceToDeath.random.nextFloat()*(WORLD_WIDTH-10)+5, WORLD_HEIGHT - 5,
-                1, 4, 70, 0.8f,
-                enemyCarTextureRegion, enemybulletTextureRegion);
 
+        enemyCarList = new LinkedList<>();
 
         playerBulletList = new LinkedList<>();
         enemyBulletList = new LinkedList<>();
@@ -90,16 +89,22 @@ public class PlayingScreen implements Screen {
     public void render(float deltaTime) {
         batch.begin();
 
-        detectInput(deltaTime);
-        moveEnemies(deltaTime);
-
-        playerCar.update(deltaTime);
-        enemyCar.update(deltaTime);
-
         renderBackground(deltaTime);
 
-        enemyCar.draw(batch);
+        detectInput(deltaTime);
+        playerCar.update(deltaTime);
 
+        spawnEnemyCars(deltaTime);
+
+        ListIterator<EnemyCar> enemyCarListIterator = enemyCarList.listIterator();
+        while (enemyCarListIterator.hasNext()) {
+            EnemyCar enemyCar = enemyCarListIterator.next();
+            moveEnemy(enemyCar, deltaTime);
+
+            enemyCar.update(deltaTime);
+
+            enemyCar.draw(batch);
+        }
         playerCar.draw(batch);
 
         renderBullets(deltaTime);
@@ -109,6 +114,18 @@ public class PlayingScreen implements Screen {
         detectCollisions();
 
         batch.end();
+    }
+
+    private void spawnEnemyCars(float deltaTime) {
+        enemySpawnTimer += deltaTime;
+
+        if (enemySpawnTimer > timeBetweenEnemySpawns) {
+            enemyCarList.add(new EnemyCar(35, 10, 20,
+                    RaceToDeath.random.nextFloat()*(WORLD_WIDTH-10)+5, WORLD_HEIGHT - 5,
+                    1, 4, 70, 0.8f,
+                    enemyCarTextureRegion, enemybulletTextureRegion));
+            enemySpawnTimer -= timeBetweenEnemySpawns;
+        }
     }
 
     private void detectInput(float deltaTime) {
@@ -170,7 +187,7 @@ public class PlayingScreen implements Screen {
 
     }
 
-    private void moveEnemies(float deltaTime) {
+    private void moveEnemy(EnemyCar enemyCar, float deltaTime) {
 
         float leftLimit, rightLimit, upLimit, downLimit;
 
@@ -194,21 +211,27 @@ public class PlayingScreen implements Screen {
 
     private void detectCollisions() {
 
-        ListIterator<Bullet> iterator = playerBulletList.listIterator();
-        while (iterator.hasNext()) {
-            Bullet bullet = iterator.next();
-            if (enemyCar.intersects(bullet.boundingBox)) {
-                enemyCar.hit(bullet);
-                iterator.remove();
+        ListIterator<Bullet> bulletListIterator = playerBulletList.listIterator();
+        while (bulletListIterator.hasNext()) {
+            Bullet bullet = bulletListIterator.next();
+            ListIterator<EnemyCar> enemyCarListIterator = enemyCarList.listIterator();
+            while (enemyCarListIterator.hasNext()) {
+                EnemyCar enemyCar = enemyCarListIterator.next();
+
+                if (enemyCar.intersects(bullet.boundingBox)) {
+                    enemyCar.hit(bullet);
+                    bulletListIterator.remove();
+                    break;
+                }
             }
         }
 
-        iterator = enemyBulletList.listIterator();
-        while (iterator.hasNext()) {
-            Bullet bullet = iterator.next();
+        bulletListIterator = enemyBulletList.listIterator();
+        while (bulletListIterator.hasNext()) {
+            Bullet bullet = bulletListIterator.next();
             if (playerCar.intersects(bullet.boundingBox)) {
                 playerCar.hit(bullet);
-                iterator.remove();
+                bulletListIterator.remove();
             }
         }
 
@@ -227,13 +250,16 @@ public class PlayingScreen implements Screen {
             }
         }
 
-        if (enemyCar.canFireBullet()) {
-            Bullet[] bullets = enemyCar.fireBullet();
-            for (Bullet bullet: bullets) {
-                enemyBulletList.add(bullet);
+        ListIterator<EnemyCar> enemyCarListIterator = enemyCarList.listIterator();
+        while (enemyCarListIterator.hasNext()) {
+            EnemyCar enemyCar = enemyCarListIterator.next();
+            if (enemyCar.canFireBullet()) {
+                Bullet[] bullets = enemyCar.fireBullet();
+                for (Bullet bullet : bullets) {
+                    enemyBulletList.add(bullet);
+                }
             }
         }
-
         ListIterator<Bullet> iterator = playerBulletList.listIterator();
         while (iterator.hasNext()) {
             Bullet bullet = iterator.next();
