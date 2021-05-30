@@ -76,7 +76,7 @@ public class PlayingScreen implements Screen {
         enemybulletTextureRegion = textureAtlas.findRegion("enemybullet");
 
 
-        explosionTexture = new Texture("explosion.png");
+        explosionTexture = new Texture("exp2_0.png");
 
 
         playerCar = new PlayerCar(45, 10, 20,

@@ -6,18 +6,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-class Explosion {
+public class Explosion {
 
     private Animation<TextureRegion> explosionAnimation;
     private float explosionTimer;
 
     private Rectangle boundingBox;
 
-    Explosion(Texture texture, Rectangle boundingBox, float totalAnimationTime) {
+    public Explosion(Texture texture, Rectangle boundingBox, float totalAnimationTime) {
         this.boundingBox = boundingBox;
 
         TextureRegion[][] textureRegion2D = TextureRegion.split(texture, 64, 64);
-
 
         TextureRegion[] textureRegion1D = new TextureRegion[16];
         int index = 0;

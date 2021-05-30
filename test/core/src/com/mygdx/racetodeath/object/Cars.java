@@ -8,7 +8,6 @@ public abstract class Cars {
 
     public float movementSpeed;
 
-
     public Rectangle boundingBox;
 
     public float bulletWidth, bulletHeight;
@@ -53,7 +52,6 @@ public abstract class Cars {
 
     public boolean hitAndCheckDestroyed(Bullet bullet) {
         return true;
-
     }
 
     public void translate(float xChange, float yChange) {
