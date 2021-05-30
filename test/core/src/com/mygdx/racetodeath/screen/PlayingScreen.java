@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -29,6 +31,7 @@ public class PlayingScreen implements Screen {
     //graphics
     private SpriteBatch batch;
     private TextureAtlas textureAtlas;
+    private Texture explosionTexture;
 
     private TextureRegion[] backgrounds;
     private float backgroundHeight; //height of background in World units
@@ -37,7 +40,7 @@ public class PlayingScreen implements Screen {
 
     private float[] backgroundOffsets = {0, 0, 0, 0};
     private float backgroundMaxScrollingSpeed;
-    private float timeBetweenEnemySpawns = 3f; //3s
+    private float timeBetweenEnemySpawns = 1f; //3s
     private float enemySpawnTimer = 0; //time start spawn
 
     private final int WORLD_WIDTH = 72;
@@ -48,6 +51,7 @@ public class PlayingScreen implements Screen {
     private LinkedList<EnemyCar> enemyCarList;
     private LinkedList<Bullet> playerBulletList;
     private LinkedList<Bullet> enemyBulletList;
+    private LinkedList<Explosion> explosionList;
 
     public PlayingScreen() {
 
@@ -71,6 +75,10 @@ public class PlayingScreen implements Screen {
         playerbulletTextureRegion = textureAtlas.findRegion("playerbullet");
         enemybulletTextureRegion = textureAtlas.findRegion("enemybullet");
 
+
+        explosionTexture = new Texture("explosion.png");
+
+
         playerCar = new PlayerCar(45, 10, 20,
                 WORLD_WIDTH/2, WORLD_HEIGHT/4,
                 1, 4, 75, 0.5f,
@@ -80,6 +88,8 @@ public class PlayingScreen implements Screen {
 
         playerBulletList = new LinkedList<>();
         enemyBulletList = new LinkedList<>();
+
+        explosionList = new LinkedList<>();
 
 
         batch = new SpriteBatch();
@@ -109,7 +119,7 @@ public class PlayingScreen implements Screen {
 
         renderBullets(deltaTime);
 
-        renderExplosions(deltaTime);
+        updateAndRenderExplosions(deltaTime);
 
         detectCollisions();
 
@@ -219,7 +229,13 @@ public class PlayingScreen implements Screen {
                 EnemyCar enemyCar = enemyCarListIterator.next();
 
                 if (enemyCar.intersects(bullet.boundingBox)) {
-                    enemyCar.hit(bullet);
+                    if (enemyCar.hitAndCheckDestroyed(bullet)) {
+                        enemyCarListIterator.remove();
+                        explosionList.add(
+                                new Explosion(explosionTexture,
+                                        new Rectangle(enemyCar.boundingBox),
+                                        0.7f));
+                    }
                     bulletListIterator.remove();
                     break;
                 }
@@ -230,14 +246,30 @@ public class PlayingScreen implements Screen {
         while (bulletListIterator.hasNext()) {
             Bullet bullet = bulletListIterator.next();
             if (playerCar.intersects(bullet.boundingBox)) {
-                playerCar.hit(bullet);
+                if (playerCar.hitAndCheckDestroyed(bullet)) {
+                    explosionList.add(
+                            new Explosion(explosionTexture,
+                                    new Rectangle(playerCar.boundingBox),
+                                    1.6f));
+                }
                 bulletListIterator.remove();
             }
         }
 
     }
 
-    private void renderExplosions(float deltaTime) {
+    private void updateAndRenderExplosions(float deltaTime) {
+        ListIterator<Explosion> explosionListIterator = explosionList.listIterator();
+        while (explosionListIterator.hasNext()) {
+            Explosion explosion = explosionListIterator.next();
+            explosion.update(deltaTime);
+            if (explosion.isFinished()) {
+                explosionListIterator.remove();
+            }
+            else {
+                explosion.draw(batch);
+            }
+        }
 
     }
 

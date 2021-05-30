@@ -51,7 +51,8 @@ public abstract class Cars {
         return boundingBox.overlaps(otherRectangle);
     }
 
-    public void hit(Bullet bullet) {
+    public boolean hitAndCheckDestroyed(Bullet bullet) {
+        return true;
 
     }
 
