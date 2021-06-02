@@ -36,7 +36,7 @@ Thanks goes to these wonderful people:
 <table>
   <tr>
     <td align="center">
-      <a><img src="https://i.imgur.com/eQ1DPrB.png" title="source: imgur.com" width="100px;"/></a>
+      <a><img src="https://i.imgur.com/eQ1DPrB.png" title="source: imgur.com" width="200px;"/></a>
     </td>
   </tr>
 </table>
