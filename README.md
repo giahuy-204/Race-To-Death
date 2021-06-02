@@ -2,13 +2,13 @@
 Project about Race to Death game
 ## What Is This?
 
-A small game we developed to get back to our childhood memories. 
+- A small game we developed to get back to our childhood memories.
+- In this game you will become a man who driving a Lamborghini car with a machine gun on top to fight again a crimial organization. You have to use your skill to defeat them and bring back its inherent peace. So do you dare to accept this challenge and show them who is the boss in that world ? Come to us and show them what you got !!!
 
 ## How To Play?
 
-Control your car by using Keyboard or Touched (android). <br>
-It's simple. Dodge enemies's bullets and try to shoot them back. The farther you get, the more point you receive. <br>
-Each time you reach a certain point, a huge boss will appear and challenge your skills. Do you dare to accept its challenge?
+- Control your car by using Keyboard or Touched (android). <br>
+- It's simple. Dodge enemies's bullets and try to shoot them back. The farther you get, the more point you receive. <br>
 
 ## Contributors 
 
