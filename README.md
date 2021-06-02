@@ -52,3 +52,8 @@ Thanks goes to these wonderful people:
     </td>
   </tr>
 </table>
+
+## Contact Us At
+
+khanh.dang190207@vnuk.edu.vn
+OR follow us at: https://www.instagram.com/RaceToDeath/ -  https://www.facebook.com/RaceToDeathSup
