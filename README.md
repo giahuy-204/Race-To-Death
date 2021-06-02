@@ -33,4 +33,10 @@ Thanks goes to these wonderful people:
 
 ## Some Image of The Game
 
-
+<table>
+  <tr>
+    <td align="center">
+      <a><img src="https://imgur.com/eQ1DPrB" width="100px;" alt=""/></a>
+    </td>
+  </tr>
+</table>
