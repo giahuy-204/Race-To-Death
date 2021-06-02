@@ -8,7 +8,7 @@ A small game we developed to get back to our childhood memories.
 
 Control your car by using Keyboard or Touched (android). <br>
 It's simple. Dodge enemies's bullets and try to shoot them back. The farther you get, the more point you receive. <br>
-Each time you reach a certain point, a huge boss will appear and challenge your skills. Do you dare to accept his challenge ?
+Each time you reach a certain point, a huge boss will appear and challenge your skills. Do you dare to accept its challenge?
 
 ## Contributors 
 
@@ -29,4 +29,8 @@ Thanks goes to these wonderful people:
       </a><br/> <a href="#" title="Designer">🎨</a> <a href="#" title="Tester">📓</a> <a href="#" title="Audio Manager">🔊</a>
     </td>
   </tr>
-</table>  
+</table>
+
+## Some Image of The Game
+
+
