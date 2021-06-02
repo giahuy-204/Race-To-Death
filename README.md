@@ -42,13 +42,13 @@ Thanks goes to these wonderful people:
       <a><img src="https://i.imgur.com/Mf7A2UY.png" title="source: imgur.com" width="200px;"/></a>
     </td>
     <td align="center">
-     <a><img src="https://i.imgur.com/TvH5dZC.jpg" title="source: imgur.com" width="100px;"/></a>
+     <a><img src="https://i.imgur.com/TvH5dZC.jpg" title="source: imgur.com" width="150px;"/></a>
     </td>
     <td align="center">
-     <a><img src="https://i.imgur.com/4456T5m.png" title="source: imgur.com"  width="100px;"/></a>
+     <a><img src="https://i.imgur.com/4456T5m.png" title="source: imgur.com"  width="150px;"/></a>
     </td>
      <td align="center">
-     <a<img src="https://i.imgur.com/SKaDLAd.png" title="source: imgur.com" width="100px;"/></a>
+     <a><img src="https://i.imgur.com/SKaDLAd.png" title="source: imgur.com" width="150px;"/></a>
     </td>
   </tr>
 </table>
