@@ -1,4 +1,4 @@
-# Race-To-Death
+# Race To Death
 Project about Race to Death game
 ## What is this?
 
@@ -6,8 +6,9 @@ A small game we developed to get back to our childhood memories.
 
 ## How to play?
 
-Control your car by using Keyboard or Touched (android)
-It's simple. Dodge enemies's bullets and try to shoot them back. The farther you get, the more point you receive.
+Control your car by using Keyboard or Touched (android) <br>
+It's simple. Dodge enemies's bullets and try to shoot them back. The farther you get, the more point you receive. <br>
+Each time you reach a certain point, a huge boss will appear and challenge your skills. Do you dare to accept his challenge ?
 
 ## Contributors 
 
