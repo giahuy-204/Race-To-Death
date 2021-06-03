@@ -8,7 +8,7 @@ Project about Race to Death game
 ## How To Play?
 
 - Control your car by using Keyboard or Touched (android). <br>
-- It's simple. Dodge enemies's bullets and try to shoot them back. The farther you get, the more point you receive. <br>
+- It's simple. Dodge enemies's bullets and try to shoot back with everything you have. The farther you get, the more point you receive. <br>
 
 ## Contributors 
 
