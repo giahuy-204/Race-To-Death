@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.racetodeath.object.Bullet;
 import com.mygdx.racetodeath.object.EnemyCar;
+import com.mygdx.racetodeath.object.Explosion;
 import com.mygdx.racetodeath.object.PlayerCar;
 import com.mygdx.racetodeath.RaceToDeath;
 
