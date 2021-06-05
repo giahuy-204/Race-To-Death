@@ -113,19 +113,19 @@ public class SettingScreen implements Screen {
         soundOnOffLabel = new Label( "Sound Effect", skin );
 
         table.add(titleLabel).colspan(2);
-        table.row().pad(10,0,0,10);
+        table.row().pad(100,0,0,100);
         table.add(volumeMusicLabel).left();
         table.add(volumeMusicSlider);
-        table.row().pad(10,0,0,10);
+        table.row().pad(100,0,0,100);
         table.add(musicOnOffLabel).left();
         table.add(musicCheckbox);
-        table.row().pad(10,0,0,10);
+        table.row().pad(100,0,0,100);
         table.add(volumeSoundLabel).left();
         table.add(soundMusicSlider);
-        table.row().pad(10,0,0,10);
+        table.row().pad(100,0,0,100);
         table.add(soundOnOffLabel).left();
         table.add(soundEffectsCheckbox);
-        table.row().pad(10,0,0,10);
+        table.row().pad(100,0,0,100);
         table.add(backButton).colspan(2);
 
     }
@@ -136,7 +136,7 @@ public class SettingScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // tell our stage to do actions and draw itself
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f ));
         stage.draw();
     }
 

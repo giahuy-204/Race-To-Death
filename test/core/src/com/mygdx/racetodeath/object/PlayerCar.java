@@ -3,6 +3,9 @@ package com.mygdx.racetodeath.object;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class PlayerCar extends Cars {
+
+    public int lives;
+
     public PlayerCar(float movementSpeed, float width, float height,
                      float xCentre, float yCentre, float bulletWidth,
                      float bulletHeight, float bulletMovementSpeed,
@@ -10,6 +13,7 @@ public class PlayerCar extends Cars {
         super(movementSpeed, width, height, xCentre, yCentre,
                 bulletWidth, bulletHeight, bulletMovementSpeed, timeBetweenShots,
                 carTextureRegion, bulletTextureRegion);
+        lives = 3;
     }
 
     @Override

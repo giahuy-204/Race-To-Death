@@ -4,13 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.racetodeath.object.Bullet;
@@ -22,6 +26,7 @@ import com.mygdx.racetodeath.RaceToDeath;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Locale;
 
 public class PlayingScreen implements Screen {
 
@@ -44,8 +49,8 @@ public class PlayingScreen implements Screen {
     private float timeBetweenEnemySpawns = 1f; //3s
     private float enemySpawnTimer = 0; //time start spawn
 
-    private final int WORLD_WIDTH = 72;
-    private final int WORLD_HEIGHT = 128;
+    private final float WORLD_WIDTH = 72;
+    private final float WORLD_HEIGHT = 128;
     private final float TOUCH_MOVEMENT_THRESHOLD = 0.1f;
 
     private PlayerCar playerCar;
@@ -53,6 +58,11 @@ public class PlayingScreen implements Screen {
     private LinkedList<Bullet> playerBulletList;
     private LinkedList<Bullet> enemyBulletList;
     private LinkedList<Explosion> explosionList;
+
+    private int score = 0;
+
+    BitmapFont font;
+    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth;
 
     private RaceToDeath parent;
 
@@ -97,6 +107,33 @@ public class PlayingScreen implements Screen {
 
 
         batch = new SpriteBatch();
+
+        prepareHUD();
+    }
+
+
+    private void prepareHUD() {
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Trench-Thin-100.otf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        fontParameter.size = 72;
+        fontParameter.borderWidth = 3.6f;
+        fontParameter.color = new Color(240,52,52, 1);
+        fontParameter.borderColor = new Color(240,52,52, 1);
+
+        font = fontGenerator.generateFont(fontParameter);
+
+        font.getData().setScale(0.08f);
+
+
+        hudVerticalMargin = font.getCapHeight()/2;
+        hudLeftX = hudVerticalMargin;
+        hudRightX = WORLD_WIDTH * 2 / 3 - hudLeftX;
+        hudCentreX = WORLD_WIDTH / 3;
+        hudRow1Y = WORLD_HEIGHT - hudVerticalMargin;
+        hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
+        hudSectionWidth = WORLD_WIDTH / 7 ;
+
     }
 
     @Override
@@ -123,11 +160,23 @@ public class PlayingScreen implements Screen {
 
         renderBullets(deltaTime);
 
-        updateAndRenderExplosions(deltaTime);
-
         detectCollisions();
 
+        updateAndRenderExplosions(deltaTime);
+
+        updateAndRenderHUD();
+
         batch.end();
+    }
+
+    private void updateAndRenderHUD() {
+        font.draw(batch, "Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, "Lives", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
+
+
+        font.draw(batch, String.format(Locale.getDefault(), "%04d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%03d", playerCar.lives), hudRightX, hudRow2Y, hudSectionWidth, Align.left, false);
+
     }
 
     private void spawnEnemyCars(float deltaTime) {
@@ -239,6 +288,7 @@ public class PlayingScreen implements Screen {
                                 new Explosion(explosionTexture,
                                         new Rectangle(enemyCar.boundingBox),
                                         0.7f));
+                        score += 1;
                     }
                     bulletListIterator.remove();
                     break;
@@ -251,10 +301,12 @@ public class PlayingScreen implements Screen {
             Bullet bullet = bulletListIterator.next();
             if (playerCar.intersects(bullet.boundingBox)) {
                 if (playerCar.hitAndCheckDestroyed(bullet)) {
+
                     explosionList.add(
                             new Explosion(explosionTexture,
                                     new Rectangle(playerCar.boundingBox),
                                     1.6f));
+                    playerCar.lives--;
                 }
                 bulletListIterator.remove();
             }
