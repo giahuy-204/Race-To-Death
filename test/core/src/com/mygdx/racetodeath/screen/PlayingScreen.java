@@ -53,7 +53,10 @@ public class PlayingScreen implements Screen {
     private LinkedList<Bullet> enemyBulletList;
     private LinkedList<Explosion> explosionList;
 
-    public PlayingScreen() {
+    private RaceToDeath parent;
+
+    public PlayingScreen(RaceToDeath raceToDeath) {
+        parent = raceToDeath;
 
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
