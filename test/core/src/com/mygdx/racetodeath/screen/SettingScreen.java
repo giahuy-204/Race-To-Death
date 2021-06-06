@@ -38,14 +38,10 @@ public class SettingScreen implements Screen {
         stage.clear();
         Gdx.input.setInputProcessor(stage);
 
-        // Create a table that fills the screen. Everything else will go inside
-        // this table.
         Table table = new Table();
         table.setFillParent(true);
-        //table.setDebug(true);
         stage.addActor(table);
 
-        // temporary until we have asset manager in
         Skin skin = new Skin(Gdx.files.internal("glassy-ui.json"));
 
         // music volume
@@ -55,7 +51,6 @@ public class SettingScreen implements Screen {
             @Override
             public boolean handle(Event event) {
                 parent.getPreferences().setMusicVolume(volumeMusicSlider.getValue());
-                // updateVolumeLabel();
                 return false;
             }
         });
@@ -67,7 +62,6 @@ public class SettingScreen implements Screen {
             @Override
             public boolean handle(Event event) {
                 parent.getPreferences().setSoundVolume(soundMusicSlider.getValue());
-                // updateVolumeLabel();
                 return false;
             }
         });
@@ -135,7 +129,6 @@ public class SettingScreen implements Screen {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // tell our stage to do actions and draw itself
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f ));
         stage.draw();
     }

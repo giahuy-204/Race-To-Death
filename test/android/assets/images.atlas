@@ -4,16 +4,9 @@ size: 4096, 4096
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-bullet
-  rotate: false
-  xy: 2100, 1638
-  size: 102, 282
-  orig: 102, 282
-  offset: 0, 0
-  index: -1
 enemybullet
   rotate: false
-  xy: 3120, 3318
+  xy: 2100, 1854
   size: 24, 66
   orig: 24, 66
   offset: 0, 0
@@ -27,7 +20,7 @@ maincar
   index: -1
 playerbullet
   rotate: false
-  xy: 3342, 3774
+  xy: 3120, 3318
   size: 24, 66
   orig: 24, 66
   offset: 0, 0

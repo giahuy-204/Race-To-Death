@@ -166,7 +166,12 @@ public class PlayingScreen implements Screen {
 
         updateAndRenderHUD();
 
+//        if (playerCar.lives == 0) {
+//            parent.changeScreen(RaceToDeath.ENDGAME);
+//        }
+
         batch.end();
+
     }
 
     private void updateAndRenderHUD() {
@@ -187,7 +192,7 @@ public class PlayingScreen implements Screen {
                     RaceToDeath.random.nextFloat()*(WORLD_WIDTH-10)+5, WORLD_HEIGHT - 5,
                     1, 4, 70, 0.8f,
                     enemyCarTextureRegion, enemybulletTextureRegion));
-            enemySpawnTimer -= timeBetweenEnemySpawns;
+            enemySpawnTimer -= timeBetweenEnemySpawns * 2;
         }
     }
 
