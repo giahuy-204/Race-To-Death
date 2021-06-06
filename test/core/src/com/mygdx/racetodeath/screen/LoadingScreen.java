@@ -5,11 +5,10 @@ import com.mygdx.racetodeath.RaceToDeath;
 
 public class LoadingScreen implements Screen {
 
-    private RaceToDeath parent; // a field to store our orchestrator
+    private RaceToDeath parent;
 
-    // our constructor with a Box2DTutorial argument
     public LoadingScreen(RaceToDeath raceToDeath){
-        parent = raceToDeath;     // setting the argument to our field.
+        parent = raceToDeath;
     }
 
     @Override

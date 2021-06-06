@@ -30,7 +30,7 @@ public class MenuScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         atlas = new TextureAtlas("images.atlas");
-        background = atlas.findRegion("screen00");
+        background = atlas.findRegion("mainmenuscreen");
         skin = new Skin(Gdx.files.internal("glassy-ui.json"));
     }
 

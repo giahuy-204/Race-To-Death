@@ -89,9 +89,7 @@ public class PlayingScreen implements Screen {
         playerbulletTextureRegion = textureAtlas.findRegion("playerbullet");
         enemybulletTextureRegion = textureAtlas.findRegion("enemybullet");
 
-
         explosionTexture = new Texture("exp2_0.png");
-
 
         playerCar = new PlayerCar(45, 10, 20,
                 WORLD_WIDTH/2, WORLD_HEIGHT/4,
@@ -166,10 +164,6 @@ public class PlayingScreen implements Screen {
 
         updateAndRenderHUD();
 
-//        if (playerCar.lives == 0) {
-//            parent.changeScreen(RaceToDeath.ENDGAME);
-//        }
-
         batch.end();
 
     }
@@ -178,10 +172,12 @@ public class PlayingScreen implements Screen {
         font.draw(batch, "Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
         font.draw(batch, "Lives", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
 
-
         font.draw(batch, String.format(Locale.getDefault(), "%04d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
         font.draw(batch, String.format(Locale.getDefault(), "%03d", playerCar.lives), hudRightX, hudRow2Y, hudSectionWidth, Align.left, false);
 
+//        if (playerCar.lives == 0) {
+//            parent.changeScreen(RaceToDeath.ENDGAME);
+//        }
     }
 
     private void spawnEnemyCars(float deltaTime) {

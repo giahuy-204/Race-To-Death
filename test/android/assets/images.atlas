@@ -1,61 +1,68 @@
 
 images.png
-size: 4096, 4096
+size: 8192, 4096
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 enemybullet
   rotate: false
-  xy: 2100, 1854
+  xy: 5220, 2956
   size: 24, 66
   orig: 24, 66
   offset: 0, 0
   index: -1
 maincar
   rotate: false
-  xy: 3120, 3384
+  xy: 0, 66
   size: 222, 456
   orig: 222, 456
   offset: 0, 0
   index: -1
+mainmenuscreen
+  rotate: false
+  xy: 1080, 522
+  size: 1080, 2500
+  orig: 1080, 2500
+  offset: 0, 0
+  index: -1
 playerbullet
   rotate: false
-  xy: 3120, 3318
+  xy: 0, 0
   size: 24, 66
   orig: 24, 66
   offset: 0, 0
   index: -1
 policecar
   rotate: false
-  xy: 0, 894
+  xy: 2160, 656
   size: 225, 446
   orig: 225, 446
   offset: 0, 0
   index: -1
 screen00
   rotate: false
-  xy: 0, 1340
+  xy: 0, 522
   size: 1080, 2500
   orig: 1080, 2500
   offset: 0, 0
   index: -1
 screen01
   rotate: false
-  xy: 2100, 1920
+  xy: 3180, 1102
   size: 1020, 1920
   orig: 1020, 1920
   offset: 0, 0
   index: -1
 screen02
   rotate: false
-  xy: 1080, 1920
+  xy: 2160, 1102
   size: 1020, 1920
   orig: 1020, 1920
   offset: 0, 0
   index: -1
 screen03
   rotate: false
-  xy: 1080, 0
+  xy: 4200, 1102
   size: 1020, 1920
   orig: 1020, 1920
   offset: 0, 0
