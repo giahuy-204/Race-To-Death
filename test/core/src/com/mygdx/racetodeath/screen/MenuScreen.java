@@ -28,7 +28,6 @@ public class MenuScreen implements Screen {
     public MenuScreen(RaceToDeath raceToDeath){
         parent = raceToDeath;     // setting the argument to our field.
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
         atlas = new TextureAtlas("images.atlas");
         background = atlas.findRegion("mainmenuscreen");
         skin = new Skin(Gdx.files.internal("glassy-ui.json"));
@@ -36,6 +35,8 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
+
+        Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
         table.setFillParent(true);
