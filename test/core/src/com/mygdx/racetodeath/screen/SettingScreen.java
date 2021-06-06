@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.racetodeath.RaceToDeath;
 
 
@@ -30,13 +31,13 @@ public class SettingScreen implements Screen {
 
     public SettingScreen(RaceToDeath raceToDeath){
         parent = raceToDeath;
-        stage = new Stage(new ScreenViewport());
+        stage=new Stage(new StretchViewport(500,1000));
     }
 
     @Override
     public void show() {
-        stage.clear();
         Gdx.input.setInputProcessor(stage);
+        stage.clear();
 
         Table table = new Table();
         table.setFillParent(true);
