@@ -107,10 +107,11 @@ public class PlayingScreen implements Screen {
 
         explosionList = new LinkedList<>();
 
-
         batch = new SpriteBatch();
 
         prepareHUD();
+
+        shooting = Gdx.audio.newSound(Gdx.files.internal("Shooting-Sound.wav"));
     }
 
 
