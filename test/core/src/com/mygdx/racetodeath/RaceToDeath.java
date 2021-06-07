@@ -1,11 +1,15 @@
 package com.mygdx.racetodeath;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.mygdx.racetodeath.screen.GameOverScreen;
 import com.mygdx.racetodeath.screen.LoadingScreen;
 import com.mygdx.racetodeath.screen.MenuScreen;
 import com.mygdx.racetodeath.screen.PlayingScreen;
 import com.mygdx.racetodeath.screen.SettingScreen;
+
+
+
 
 import java.util.Random;
 
@@ -18,12 +22,25 @@ public class RaceToDeath extends Game {
 	public GameOverScreen gameOverScreen;
 	private AppPreferences preferences;
 
+
+
 	public final static int MENU = 0;
 	public final static int PREFERENCES = 1;
 	public final static int APPLICATION = 2;
 	public final static int ENDGAME = 3;
 
 	public static Random random = new Random();
+
+	@Override
+	public void create() {
+		preferences = new AppPreferences();
+		loadingScreen = new LoadingScreen(this);
+		setScreen(loadingScreen);
+
+
+
+
+	}
 
 	public void changeScreen(int screen){
 		switch(screen){
@@ -47,12 +64,7 @@ public class RaceToDeath extends Game {
 	}
 
 
-	@Override
-	public void create() {
-		preferences = new AppPreferences();
-		loadingScreen = new LoadingScreen(this);
-		setScreen(loadingScreen);
-	}
+
 
 
 

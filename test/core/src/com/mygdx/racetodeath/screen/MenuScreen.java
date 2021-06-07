@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.racetodeath.RaceToDeath;
 
+
 public class MenuScreen implements Screen {
 
     private RaceToDeath parent;
@@ -24,6 +25,8 @@ public class MenuScreen implements Screen {
     private TextureAtlas atlas;
     private TextureRegion background;
     private Skin skin;
+
+
 
     public MenuScreen(RaceToDeath raceToDeath){
         parent = raceToDeath;     // setting the argument to our field.
