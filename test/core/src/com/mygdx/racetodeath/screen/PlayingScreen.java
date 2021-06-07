@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -136,6 +137,7 @@ public class PlayingScreen implements Screen {
 
     @Override
     public void render(float deltaTime) {
+
         batch.begin();
 
         renderBackground(deltaTime);
@@ -166,6 +168,8 @@ public class PlayingScreen implements Screen {
 
         batch.end();
 
+//        renderGameOver();
+
     }
 
     private void updateAndRenderHUD() {
@@ -175,9 +179,14 @@ public class PlayingScreen implements Screen {
         font.draw(batch, String.format(Locale.getDefault(), "%04d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
         font.draw(batch, String.format(Locale.getDefault(), "%03d", playerCar.lives), hudRightX, hudRow2Y, hudSectionWidth, Align.left, false);
 
-//        if (playerCar.lives == 0) {
-//            parent.changeScreen(RaceToDeath.ENDGAME);
-//        }
+    }
+
+    private void renderGameOver() {
+        Gdx.gl.glClearColor(0.4f, 0.4f, 0.8f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (playerCar.lives < 1) {
+            parent.changeScreen(RaceToDeath.ENDGAME);
+        }
     }
 
     private void spawnEnemyCars(float deltaTime) {

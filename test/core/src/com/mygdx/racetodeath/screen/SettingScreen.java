@@ -31,13 +31,13 @@ public class SettingScreen implements Screen {
 
     public SettingScreen(RaceToDeath raceToDeath){
         parent = raceToDeath;
-        stage=new Stage(new StretchViewport(500,1000));
+        stage = new Stage(new StretchViewport(500,1000));
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
         stage.clear();
+        Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -97,7 +97,6 @@ public class SettingScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 parent.changeScreen(RaceToDeath.MENU);
-
             }
         });
 
