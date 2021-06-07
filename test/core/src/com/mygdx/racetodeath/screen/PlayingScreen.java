@@ -350,7 +350,7 @@ public class PlayingScreen implements Screen {
             for (Bullet bullet: bullets) {
                 playerBulletList.add(bullet);
                 shooting.play();
-                shooting.loop(0.5f);
+                shooting.loop(0.1f);
 //                shooting.wait(10);
             }
         }
