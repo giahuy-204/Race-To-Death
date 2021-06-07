@@ -3,6 +3,7 @@ package com.mygdx.racetodeath.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -61,6 +62,8 @@ public class PlayingScreen implements Screen {
     private LinkedList<Explosion> explosionList;
 
     private int score = 0;
+
+    public Sound shooting;
 
     BitmapFont font;
     float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth;
@@ -345,6 +348,9 @@ public class PlayingScreen implements Screen {
             Bullet[] bullets = playerCar.fireBullet();
             for (Bullet bullet: bullets) {
                 playerBulletList.add(bullet);
+                shooting.play();
+                shooting.loop(0.5f);
+//                shooting.wait(10);
             }
         }
 
