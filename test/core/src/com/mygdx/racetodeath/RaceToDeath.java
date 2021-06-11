@@ -38,8 +38,8 @@ public class RaceToDeath extends Game {
 		loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);
 
-		loading = Gdx.audio.newMusic(Gdx.files.internal("Main-Menu-Music.ogg"));
-		playing = Gdx.audio.newMusic(Gdx.files.internal("Background-Music.ogg"));
+		loading = Gdx.audio.newMusic(Gdx.files.internal("music/Main-Menu-Music.ogg"));
+		playing = Gdx.audio.newMusic(Gdx.files.internal("music/Background-Music.ogg"));
 
 
 	}

@@ -43,7 +43,7 @@ public class SettingScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        Skin skin = new Skin(Gdx.files.internal("glassy-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skins/glassy-ui.json"));
 
         // music volume
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);

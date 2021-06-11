@@ -83,7 +83,7 @@ public class PlayingScreen extends ScreenAdapter implements Screen {
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
-        textureAtlas = new TextureAtlas("images.atlas");
+        textureAtlas = new TextureAtlas("images/images.atlas");
 
         backgrounds = new TextureRegion[4];
         backgrounds[0] = textureAtlas.findRegion("screen00");
@@ -100,7 +100,7 @@ public class PlayingScreen extends ScreenAdapter implements Screen {
         playerbulletTextureRegion = textureAtlas.findRegion("playerbullet");
         enemybulletTextureRegion = textureAtlas.findRegion("enemybullet");
 
-        explosionTexture = new Texture("exp2_0.png");
+        explosionTexture = new Texture("images/exp2_0.png");
 
         playerCar = new PlayerCar(45, 10, 20,
                 WORLD_WIDTH/2, WORLD_HEIGHT/4,
@@ -118,12 +118,7 @@ public class PlayingScreen extends ScreenAdapter implements Screen {
 
         prepareHUD();
 
-        shooting = Gdx.audio.newSound(Gdx.files.internal("Shooting-Sound.wav"));
-
-        if (playerCar.lives == 0) {
-//            parent.lastScore = score;
-            parent.changeScreen(RaceToDeath.ENDGAME);
-        }
+        shooting = Gdx.audio.newSound(Gdx.files.internal("music/Shooting-Sound.wav"));
     }
 
     public int getHighScore(){
@@ -138,7 +133,7 @@ public class PlayingScreen extends ScreenAdapter implements Screen {
     }
 
     private void prepareHUD() {
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Trench-Thin-100.otf"));
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/Trench-Thin-100.otf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         fontParameter.size = 72;

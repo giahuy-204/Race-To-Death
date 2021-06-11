@@ -22,7 +22,7 @@ public class GameOverScreen implements Screen {
 
     private RaceToDeath parent;
     private Stage stage;
-    private TextureAtlas atlas;
+    private TextureAtlas atlas2;
     private TextureRegion background2;
     private Skin skin;
     private Preferences preferences;
@@ -37,9 +37,9 @@ public class GameOverScreen implements Screen {
         parent = raceToDeath;     // setting the argument to our field.
         stage = new Stage(new StretchViewport(500,1000));
 
-        atlas = new TextureAtlas("images.atlas");
-        background2 = atlas.findRegion("mainmenuscreen");
-
+        atlas2 = new TextureAtlas("images/images.atlas");
+        background2 = atlas2.findRegion("mainmenuscreen");
+        skin = new Skin(Gdx.files.internal("skins/glassy-ui.json"));
     }
 
     @Override
@@ -51,14 +51,13 @@ public class GameOverScreen implements Screen {
 
         Table table = new Table();
         table.setFillParent(true);
+        table.setDebug(true);
         stage.addActor(table);
-
-        Skin skin = new Skin(Gdx.files.internal("glassy-ui.json"));
 
         table.setBackground(new TiledDrawable(background2));
 
-        final TextButton menuButton = new TextButton("Main menu", skin);
-        final TextButton exit2 = new TextButton("Exit", skin);
+        TextButton menuButton = new TextButton("Main menu", skin);
+        TextButton exit2 = new TextButton("Exit", skin);
 
         menuButton.addListener(new ChangeListener() {
             @Override
@@ -85,9 +84,9 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act();
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        System.out.println(highScore);
+//        System.out.println(highScore);
     }
 
     @Override
