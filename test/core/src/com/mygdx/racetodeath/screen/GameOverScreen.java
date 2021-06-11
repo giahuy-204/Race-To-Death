@@ -47,7 +47,7 @@ public class GameOverScreen implements Screen {
         stage.clear();
         Gdx.input.setInputProcessor(stage);
 
-        highScore = preferences.getInteger("High score", 0);
+//        highScore = preferences.getInteger("max", 0);
 
         Table table = new Table();
         table.setFillParent(true);

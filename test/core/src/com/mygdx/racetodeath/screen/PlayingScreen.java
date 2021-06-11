@@ -208,6 +208,9 @@ public class PlayingScreen extends ScreenAdapter implements Screen {
             stage.clear();
 
             parent.changeScreen(RaceToDeath.ENDGAME);
+
+            score = 0;
+            playerCar.lives = 3;
         }
 
     }
