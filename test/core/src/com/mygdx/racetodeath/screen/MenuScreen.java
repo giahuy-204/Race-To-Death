@@ -2,6 +2,7 @@ package com.mygdx.racetodeath.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,8 +27,6 @@ public class MenuScreen implements Screen {
     private TextureRegion background;
     private Skin skin;
 
-
-
     public MenuScreen(RaceToDeath raceToDeath){
         parent = raceToDeath;     // setting the argument to our field.
         stage = new Stage(new ScreenViewport());
@@ -39,6 +38,7 @@ public class MenuScreen implements Screen {
     @Override
     public void show() {
 
+        stage.clear();
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();

@@ -2,7 +2,9 @@ package com.mygdx.racetodeath.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -16,7 +18,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.racetodeath.object.Bullet;
@@ -30,7 +34,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Locale;
 
-public class PlayingScreen implements Screen {
+public class PlayingScreen extends ScreenAdapter implements Screen {
 
     //screen
     private Camera camera;
@@ -61,7 +65,7 @@ public class PlayingScreen implements Screen {
     private LinkedList<Bullet> enemyBulletList;
     private LinkedList<Explosion> explosionList;
 
-    private int score = 0;
+    public int score = 0;
 
     public Sound shooting;
 
@@ -70,8 +74,11 @@ public class PlayingScreen implements Screen {
 
     private RaceToDeath parent;
 
+    private Stage stage;
+
     public PlayingScreen(RaceToDeath raceToDeath) {
         parent = raceToDeath;
+        stage = new Stage(new ScreenViewport());
 
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
@@ -112,8 +119,23 @@ public class PlayingScreen implements Screen {
         prepareHUD();
 
         shooting = Gdx.audio.newSound(Gdx.files.internal("Shooting-Sound.wav"));
+
+        if (playerCar.lives == 0) {
+//            parent.lastScore = score;
+            parent.changeScreen(RaceToDeath.ENDGAME);
+        }
     }
 
+    public int getHighScore(){
+        Preferences prefs = Gdx.app.getPreferences("MyPref");
+        return prefs.getInteger("max");
+    }
+
+    public void setHighScore(int score){
+        Preferences prefs = Gdx.app.getPreferences("MyPref");
+        prefs.putInteger("max", score);
+        prefs.flush();
+    }
 
     private void prepareHUD() {
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Trench-Thin-100.otf"));
@@ -139,58 +161,67 @@ public class PlayingScreen implements Screen {
 
     }
 
+
+    @Override
+    public void show() {
+        stage.clear();
+        Gdx.input.setInputProcessor(stage);
+    }
+
+
     @Override
     public void render(float deltaTime) {
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
+        if (playerCar.lives > 0) {
+            batch.begin();
 
-        renderBackground(deltaTime);
+            renderBackground(deltaTime);
 
-        detectInput(deltaTime);
-        playerCar.update(deltaTime);
+            detectInput(deltaTime);
+            playerCar.update(deltaTime);
 
-        spawnEnemyCars(deltaTime);
+            spawnEnemyCars(deltaTime);
 
-        ListIterator<EnemyCar> enemyCarListIterator = enemyCarList.listIterator();
-        while (enemyCarListIterator.hasNext()) {
-            EnemyCar enemyCar = enemyCarListIterator.next();
-            moveEnemy(enemyCar, deltaTime);
+            ListIterator<EnemyCar> enemyCarListIterator = enemyCarList.listIterator();
+            while (enemyCarListIterator.hasNext()) {
+                EnemyCar enemyCar = enemyCarListIterator.next();
+                moveEnemy(enemyCar, deltaTime);
 
-            enemyCar.update(deltaTime);
+                enemyCar.update(deltaTime);
 
-            enemyCar.draw(batch);
+                enemyCar.draw(batch);
+            }
+            playerCar.draw(batch);
+
+            renderBullets(deltaTime);
+
+            detectCollisions();
+
+            updateAndRenderExplosions(deltaTime);
+
+            updateAndRenderHUD();
+
+            batch.end();
+        } else {
+            stage.clear();
+
+            parent.changeScreen(RaceToDeath.ENDGAME);
         }
-        playerCar.draw(batch);
-
-        renderBullets(deltaTime);
-
-        detectCollisions();
-
-        updateAndRenderExplosions(deltaTime);
-
-        updateAndRenderHUD();
-
-        batch.end();
-
-//        renderGameOver();
 
     }
 
     private void updateAndRenderHUD() {
         font.draw(batch, "Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
+
         font.draw(batch, "Lives", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
 
         font.draw(batch, String.format(Locale.getDefault(), "%04d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
+
         font.draw(batch, String.format(Locale.getDefault(), "%03d", playerCar.lives), hudRightX, hudRow2Y, hudSectionWidth, Align.left, false);
 
-    }
-
-    private void renderGameOver() {
-        Gdx.gl.glClearColor(0.4f, 0.4f, 0.8f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if (playerCar.lives < 1) {
-            parent.changeScreen(RaceToDeath.ENDGAME);
-        }
+        font.draw(batch,"High Score: "+ getHighScore(),50,Gdx.graphics.getHeight() / 5);
     }
 
     private void spawnEnemyCars(float deltaTime) {
@@ -303,6 +334,9 @@ public class PlayingScreen implements Screen {
                                         new Rectangle(enemyCar.boundingBox),
                                         0.7f));
                         score += 1;
+                        if(score > getHighScore()){
+                            setHighScore(score);
+                        }
                     }
                     bulletListIterator.remove();
                     break;
@@ -315,7 +349,6 @@ public class PlayingScreen implements Screen {
             Bullet bullet = bulletListIterator.next();
             if (playerCar.intersects(bullet.boundingBox)) {
                 if (playerCar.hitAndCheckDestroyed(bullet)) {
-
                     explosionList.add(
                             new Explosion(explosionTexture,
                                     new Rectangle(playerCar.boundingBox),
@@ -424,12 +457,8 @@ public class PlayingScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
-
-    @Override
     public void dispose() {
         batch.dispose();
+        stage.dispose();
     }
 }

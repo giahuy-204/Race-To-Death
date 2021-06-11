@@ -66,16 +66,11 @@ public class RaceToDeath extends Game {
 				playing.play();
 				break;
 			case ENDGAME:
-				if(gameOverScreen == null) gameOverScreen = new GameOverScreen(this);
+				if(gameOverScreen == null ) gameOverScreen = new GameOverScreen(this);
 				this.setScreen(gameOverScreen);
 				break;
 		}
 	}
-
-
-
-
-
 
 	@Override
 	public void dispose() {

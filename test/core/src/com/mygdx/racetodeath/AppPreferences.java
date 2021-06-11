@@ -8,7 +8,7 @@ public class AppPreferences {
     private static final String PREF_MUSIC_ENABLED = "music.enabled";
     private static final String PREF_SOUND_ENABLED = "sound.enabled";
     private static final String PREF_SOUND_VOL = "sound";
-    private static final String PREFS_NAME = "racetodeath";
+    private static final String PREFS_NAME = "MyPref";
 
     protected Preferences getPrefs() {
         return Gdx.app.getPreferences(PREFS_NAME);
