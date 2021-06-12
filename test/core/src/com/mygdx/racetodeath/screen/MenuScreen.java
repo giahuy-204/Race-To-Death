@@ -24,14 +24,14 @@ public class MenuScreen implements Screen {
     private RaceToDeath parent;
     private Stage stage;
     private TextureAtlas atlas;
-    private TextureRegion background;
+    private TextureRegion menuBackground;
     private Skin skin;
 
     public MenuScreen(RaceToDeath raceToDeath){
         parent = raceToDeath;     // setting the argument to our field.
         stage = new Stage(new ScreenViewport());
         atlas = new TextureAtlas("images/images.atlas");
-        background = atlas.findRegion("mainmenuscreen");
+        menuBackground = atlas.findRegion("mainmenuscreen");
         skin = new Skin(Gdx.files.internal("skins/glassy-ui.json"));
     }
 
@@ -46,7 +46,7 @@ public class MenuScreen implements Screen {
         table.setDebug(true);
         stage.addActor(table);
 
-        table.setBackground(new TiledDrawable(background));
+        table.setBackground(new TiledDrawable(menuBackground));
 
         TextButton newGame = new TextButton("New Game", skin);
         TextButton preferences = new TextButton("Setting", skin);

@@ -23,7 +23,7 @@ public class GameOverScreen implements Screen {
     private RaceToDeath parent;
     private Stage stage;
     private TextureAtlas atlas2;
-    private TextureRegion background2;
+    private TextureRegion gameOverBackground;
     private Skin skin;
     private Preferences preferences;
     private int highScore;
@@ -38,7 +38,7 @@ public class GameOverScreen implements Screen {
         stage = new Stage(new StretchViewport(500,1000));
 
         atlas2 = new TextureAtlas("images/images.atlas");
-        background2 = atlas2.findRegion("mainmenuscreen");
+        gameOverBackground = atlas2.findRegion("gameoverscreen");
         skin = new Skin(Gdx.files.internal("skins/glassy-ui.json"));
     }
 
@@ -54,7 +54,7 @@ public class GameOverScreen implements Screen {
         table.setDebug(true);
         stage.addActor(table);
 
-        table.setBackground(new TiledDrawable(background2));
+        table.setBackground(new TiledDrawable(gameOverBackground));
 
         TextButton menuButton = new TextButton("Main menu", skin);
         TextButton exit2 = new TextButton("Exit", skin);
@@ -76,6 +76,8 @@ public class GameOverScreen implements Screen {
         table.add(menuButton).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
         table.add(exit2).fillX().uniformX();
+        table.row();
+//        table.add(exit2).fillX().uniformX();
 
     }
 

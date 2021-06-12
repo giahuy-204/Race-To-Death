@@ -61,13 +61,14 @@ public class RaceToDeath extends Game {
 				if(playingScreen == null) playingScreen = new PlayingScreen(this);
 				this.setScreen(playingScreen);
 				loading.stop();
-				playing.setVolume(0.5f);
+				playing.setVolume(0.3f);
 				playing.setLooping(true);
 				playing.play();
 				break;
 			case ENDGAME:
 				if(gameOverScreen == null ) gameOverScreen = new GameOverScreen(this);
 				this.setScreen(gameOverScreen);
+				playing.stop();
 				break;
 		}
 	}

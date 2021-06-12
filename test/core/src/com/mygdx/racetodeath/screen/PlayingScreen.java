@@ -100,7 +100,7 @@ public class PlayingScreen extends ScreenAdapter implements Screen {
         playerbulletTextureRegion = textureAtlas.findRegion("playerbullet");
         enemybulletTextureRegion = textureAtlas.findRegion("enemybullet");
 
-        explosionTexture = new Texture("images/exp2_0.png");
+        explosionTexture = new Texture("images/explosions.png");
 
         playerCar = new PlayerCar(45, 10, 20,
                 WORLD_WIDTH/2, WORLD_HEIGHT/4,
@@ -380,8 +380,11 @@ public class PlayingScreen extends ScreenAdapter implements Screen {
             Bullet[] bullets = playerCar.fireBullet();
             for (Bullet bullet: bullets) {
                 playerBulletList.add(bullet);
-                shooting.play();
-                shooting.loop(0.1f);
+//                shooting.play();
+//                shooting.loop(0.1f);
+                if (playerCar.lives == 0) {
+//                    shooting.stop();
+                }
 //                shooting.wait(10);
             }
         }
