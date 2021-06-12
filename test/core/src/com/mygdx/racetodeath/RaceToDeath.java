@@ -23,7 +23,7 @@ public class RaceToDeath extends Game {
 	public GameOverScreen gameOverScreen;
 	private AppPreferences preferences;
 
-	public Music loading, playing;
+	public Music loading, playing, ending;
 
 	public final static int MENU = 0;
 	public final static int PREFERENCES = 1;
@@ -40,7 +40,7 @@ public class RaceToDeath extends Game {
 
 		loading = Gdx.audio.newMusic(Gdx.files.internal("music/Main-Menu-Music.ogg"));
 		playing = Gdx.audio.newMusic(Gdx.files.internal("music/Background-Music.ogg"));
-
+		ending = Gdx.audio.newMusic(Gdx.files.internal("music/Game-Over-Music.ogg"));
 
 	}
 
@@ -69,6 +69,9 @@ public class RaceToDeath extends Game {
 				if(gameOverScreen == null ) gameOverScreen = new GameOverScreen(this);
 				this.setScreen(gameOverScreen);
 				playing.stop();
+				ending.setVolume(0.3f);
+				ending.setLooping(false);
+				ending.play();
 				break;
 		}
 	}
