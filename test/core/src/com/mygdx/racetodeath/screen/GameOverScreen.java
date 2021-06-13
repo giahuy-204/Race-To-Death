@@ -3,9 +3,13 @@ package com.mygdx.racetodeath.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -13,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.racetodeath.RaceToDeath;
 
@@ -27,10 +30,19 @@ public class GameOverScreen implements Screen {
     private Skin skin;
     private Preferences preferences;
     private int highScore;
+    private SpriteBatch batch;
+    BitmapFont font;
 
-    GameOverScreen(Preferences preferences) {
-        // Store reference to LibGDX Preferences
-        this.preferences = preferences;
+    private void prepareHUD() {
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/Trench-Thin-100.otf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        fontParameter.size = 100;
+        fontParameter.borderWidth = 3.6f;
+        fontParameter.color = new Color(240,52,52, 1);
+        fontParameter.borderColor = new Color(240,52,52, 1);
+
+        font = fontGenerator.generateFont(fontParameter);
     }
 
     public GameOverScreen(RaceToDeath raceToDeath){
@@ -40,6 +52,17 @@ public class GameOverScreen implements Screen {
         atlas2 = new TextureAtlas("images/images.atlas");
         gameOverBackground = atlas2.findRegion("gameoverscreen");
         skin = new Skin(Gdx.files.internal("skins/glassy-ui.json"));
+        this.preferences = Gdx.app.getPreferences("MyPref");
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        font.getData().scale(10);
+        batch = new SpriteBatch();
+        prepareHUD();
+    }
+
+    public int getHighScore2(){
+        Preferences preferences = Gdx.app.getPreferences("MyPref");
+        return preferences.getInteger("max");
     }
 
     @Override
@@ -88,6 +111,9 @@ public class GameOverScreen implements Screen {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+        batch.begin();
+        font.draw(batch,"High Score: "+ getHighScore2(),250,Gdx.graphics.getHeight() / 5);
+        batch.end();
 //        System.out.println(highScore);
     }
 

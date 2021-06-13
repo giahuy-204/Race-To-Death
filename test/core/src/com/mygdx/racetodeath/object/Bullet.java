@@ -11,7 +11,6 @@ public class Bullet {
 
     TextureRegion textureRegion;
 
-
     public Bullet(float xCentre, float yBottom, float width, float height, float movementSpeed, TextureRegion textureRegion) {
 
 
