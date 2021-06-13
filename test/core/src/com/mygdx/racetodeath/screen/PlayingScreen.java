@@ -206,6 +206,7 @@ public class PlayingScreen extends ScreenAdapter implements Screen {
 
             score = 0;
             playerCar.lives = 3;
+            enemyCarList.remove();
         }
 
     }
