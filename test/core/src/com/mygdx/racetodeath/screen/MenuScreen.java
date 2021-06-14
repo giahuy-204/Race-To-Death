@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.racetodeath.RaceToDeath;
 
 
@@ -26,6 +29,8 @@ public class MenuScreen implements Screen {
     private TextureAtlas atlas;
     private TextureRegion menuBackground;
     private Skin skin;
+    private OrthographicCamera cam;
+    private Viewport viewport;
 
     public MenuScreen(RaceToDeath raceToDeath){
         parent = raceToDeath;     // setting the argument to our field.
@@ -33,6 +38,9 @@ public class MenuScreen implements Screen {
         atlas = new TextureAtlas("images/images.atlas");
         menuBackground = atlas.findRegion("mainmenuscreen");
         skin = new Skin(Gdx.files.internal("skins/glassy-ui.json"));
+
+        cam = new OrthographicCamera();
+        viewport = new StretchViewport(72, 128, cam);
     }
 
     @Override
@@ -93,6 +101,7 @@ public class MenuScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        viewport.update(width, height, true);
     }
 
     @Override
